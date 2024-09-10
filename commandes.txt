@@ -1,0 +1,45 @@
+# NB
+# docker build -t node-app-image . ==> contruire l'image || le point c'est le dossier racine de Dockerfile 
+
+# docker run -p 3000:3000 -d --name node-app node-app-image
+# 3000:3000 ==> 3000 a droit c'est le port de conteneur
+# 3000:3000 ==> 3000 a gauche c'est le port de windows 'localhost'
+
+# docker exec -it node-app bash pour acceder à l'intérieur de conteneur
+
+# docker rm node-app -f ==> supprimer un conteneur
+
+# docker rm node-app -fv ==> supprimer un conteneur avec ces volumes
+
+# docker run -v D:\PR\bignova\docker:/app  -p 3000:3000 -d --name node-app node-app-image ==> pour crée un fichier sync entre la machine locale et le conteneur docker
+# shortcut with docker run -v %cd%:/app  -p 3000:3000 -d --name node-app node-app-image ==> on CMD !!!
+# shortcut with docker run -v ${pwd}:/app  -p 3000:3000 -d --name node-app node-app-image ==> on powershell !!!
+
+# docker run -v ${pwd}:/app -v /app/node_modules -p 3000:3000 -d --name node-app node-app-image ==> cette commande exclut le dossier node_modules de la synchronisation en ajoutons -v /app/node_modules
+
+# docker run -v ${pwd}:/app:ro -v /app/node_modules -p 3000:3000 -d --name node-app node-app-image ==> cette commande permet la synchronisation dans un seule sens (juste la machine local peut modifier le conteneur ::: le conteneur ne peut pas toucher le dossier dans la machine local) 
+
+# docker run -v ${pwd}:/app:ro -v /app/node_modules --env PORT=4000 -p 3000:4000 -d --name node-app node-app-image ==> cette commande execute l'app dans le port 4000
+
+# docker run -v ${pwd}:/app:ro -v /app/node_modules --env-file ./.env -p 3000:4000 -d --name node-app node-app-image ==> cette commande passe un fichier d'environemment au conteneur
+
+# docker-compose up -d ==> exécuter le docker-compose
+
+# docker-compose up -d --build ==> pour reconstruire l'image
+
+# docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+
+# docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build -V pour crée un nouveau volume anonyme
+
+# docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --scale node-app=2
+
+# docker-compose down -v ==> supprimer les volumes aussi
+
+# docker-compose -f docker-compose.yml -f docker-compose.dev.yml down -v
+
+# docker-compose -f docker-compose.yml -f docker-compose.dev.yml down ==> il faut pas ajouter -v si on veut pas supprimer les volumes surtout le volume mongo-db:/data/db qui garde les données
+
+# volumes:
+    - mongo-db:/data/db
+Le volume que vous avez spécifié (mongo-db:/data/db) mappe un répertoire sur votre machine hôte (localhost) à un répertoire à l'intérieur du conteneur (/data/db).
+Cela signifie que toutes les données que MongoDB écrit dans /data/db à l'intérieur du conteneur sont en réalité écrites dans un répertoire sur votre machine hôte.
