@@ -43,3 +43,5 @@
     - mongo-db:/data/db
 Le volume que vous avez spécifié (mongo-db:/data/db) mappe un répertoire sur votre machine hôte (localhost) à un répertoire à l'intérieur du conteneur (/data/db).
 Cela signifie que toutes les données que MongoDB écrit dans /data/db à l'intérieur du conteneur sont en réalité écrites dans un répertoire sur votre machine hôte.
+
+set -o allexport; source /home/ayoub/.env; set +o allexport; ==> pour stocker les variables d'envirenomment
